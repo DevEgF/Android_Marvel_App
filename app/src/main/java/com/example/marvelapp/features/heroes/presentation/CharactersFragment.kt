@@ -10,8 +10,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.example.marvelapp.databinding.FragmentCharactersBinding
+import com.example.marvelapp.features.detail.data.viewArgs.DetailViewArg
 import com.example.marvelapp.features.heroes.presentation.adapter.CharacterAdapter
 import com.example.marvelapp.features.heroes.presentation.adapter.CharacterLoadStateAdapter
 import com.example.marvelapp.features.heroes.presentation.viewmodel.CharactersViewModel
@@ -46,13 +49,28 @@ class CharactersFragment : Fragment() {
     }
 
     private fun initCharactersAdapter() {
-        charactersAdapter = CharacterAdapter()
+        charactersAdapter = CharacterAdapter { character, description, view ->
+            val extras = FragmentNavigatorExtras(
+                view to character.name
+            )
+
+            val directions = CharactersFragmentDirections
+                .actionCharactersFragmentToDetailFragment(
+                    character.name,
+                    DetailViewArg(
+                        character.name,
+                        character.description,
+                        character.imageUrl
+                    )
+                )
+            findNavController().navigate(directions, extras)
+        }
         binding.recyclerCharacters.run {
             setHasFixedSize(true)
             adapter = charactersAdapter.withLoadStateFooter(
                 footer =  CharacterLoadStateAdapter(
-                charactersAdapter::retry
-            ))
+                    charactersAdapter::retry
+                ))
         }
     }
 

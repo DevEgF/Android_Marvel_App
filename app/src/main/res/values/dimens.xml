@@ -7,8 +7,10 @@
     <dimen name="size_12dp">12dp</dimen>
     <dimen name="size_16dp">16dp</dimen>
     <dimen name="size_24dp">24dp</dimen>
+    <dimen name="size_26dp">26dp</dimen>
     <dimen name="size_56dp">56dp</dimen>
     <dimen name="size_170dp">170dp</dimen>
+    <dimen name="size_200dp">200dp</dimen>
     <dimen name="size_230dp">230dp</dimen>
 
     <!--             Font sizes                   -->

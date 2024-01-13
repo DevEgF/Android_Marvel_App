@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".features.detail.presentation.DetailFragment">
+
+    <ImageView
+        android:id="@+id/image_characters"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="@dimen/size_200dp"
+        android:scaleType="fitXY"
+        tools:ignore="contentDescription"
+        tools:srcCompat="@tools:sample/avatars"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/characters_descriptions"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/size_26dp"
+        android:layout_marginVertical="@dimen/size_8dp"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_characters"
+        tools:text="@tools:sample/lorem/random" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_parent_detail"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="@dimen/size_0dp"
+        android:padding="@dimen/size_16dp"
+        android:scrollbars="horizontal"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/characters_descriptions"
+        tools:listitem="@layout/item_parent_detail"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

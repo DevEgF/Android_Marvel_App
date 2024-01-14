@@ -9,9 +9,11 @@ import com.example.marvelapp.R
 import com.example.marvelapp.commons.utils.OnCharacterItemClick
 import com.example.marvelapp.databinding.ItemCharacterBinding
 import com.example.marvelapp.features.heroes.domain.entities.CharacterEntity
+import com.example.marvelapp.framework.imageloader.ImageLoader
 
 class CharacterViewHolder(
     itemCharacterBinding: ItemCharacterBinding,
+    private val imageLoader: ImageLoader,
     private val onItemClick: OnCharacterItemClick
 ): RecyclerView.ViewHolder(itemCharacterBinding.root) {
 
@@ -21,10 +23,12 @@ class CharacterViewHolder(
     fun bind(character: CharacterEntity) {
         textName.text = character.name
         imageCharacter.transitionName = character.name
-        Glide.with(itemView)
-            .load(character.imageUrl)
-            .fallback(R.drawable.ic_img_loading_error)
-            .into(imageCharacter)
+
+        imageLoader.load(
+            imageCharacter,
+            character.imageUrl,
+            R.drawable.ic_img_loading_error
+        )
 
         itemView.setOnClickListener {
             onItemClick.invoke(character, character.description, imageCharacter)
@@ -34,11 +38,12 @@ class CharacterViewHolder(
     companion object {
         fun create(
             parent: ViewGroup,
+            imageLoader: ImageLoader,
             onItemClick: OnCharacterItemClick
         ): CharacterViewHolder {
             val inflater = LayoutInflater.from(parent.context)
             val itemBinding = ItemCharacterBinding.inflate(inflater, parent, false)
-            return CharacterViewHolder(itemBinding, onItemClick)
+            return CharacterViewHolder(itemBinding, imageLoader, onItemClick)
         }
     }
 }

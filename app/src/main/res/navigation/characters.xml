@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.example.marvelapp.features.detail.presentation.DetailFragment"
+        android:name="com.example.marvelapp.features.heroes.presentation.DetailFragment"
         android:label="{screenTitle}"
         tools:layout="@layout/fragment_detail" >
         <argument
@@ -24,6 +24,6 @@
             app:argType="string" />
         <argument
             android:name="detailViewArg"
-            app:argType="com.example.marvelapp.features.detail.data.viewArgs.DetailViewArg" />
+            app:argType="com.example.marvelapp.features.heroes.presentation.viewArgs.DetailViewArg" />
     </fragment>
 </navigation>

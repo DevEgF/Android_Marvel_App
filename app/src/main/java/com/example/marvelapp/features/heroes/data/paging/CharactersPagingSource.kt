@@ -2,14 +2,12 @@ package com.example.marvelapp.features.heroes.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.marvelapp.commons.data.network.response.DataWrapperResponse
 import com.example.marvelapp.commons.utils.Constants.LIMIT
 import com.example.marvelapp.features.heroes.data.network.datasource.CharactersRemoteDataSource
-import com.example.marvelapp.features.heroes.data.response.toCharacterEntity
 import com.example.marvelapp.features.heroes.domain.entities.CharacterEntity
 
 class CharactersPagingSource(
-    private val remoteDataSource: CharactersRemoteDataSource<DataWrapperResponse>,
+    private val remoteDataSource: CharactersRemoteDataSource,
     private val query: String
 ): PagingSource<Int, CharacterEntity>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CharacterEntity> {
@@ -22,14 +20,12 @@ class CharactersPagingSource(
                 queries["nameStartsWith"] = query
             }
 
-            val response = remoteDataSource.fetchCharacters(queries)
-            val responseOffset = response.data.offset
-            val totalCharacters = response.data.total
+            val charactersPaging = remoteDataSource.fetchCharacters(queries)
+            val responseOffset = charactersPaging.offset
+            val totalCharacters = charactersPaging.total
 
             LoadResult.Page(
-                data = response.data.results.map {
-                    it.toCharacterEntity()
-                },
+                data = charactersPaging.characters,
                 prevKey = null,
                 nextKey = if(responseOffset < totalCharacters) responseOffset + LIMIT else null
             )

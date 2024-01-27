@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.example.marvelapp.R
 import com.example.marvelapp.databinding.FragmentDetailBinding
+import com.example.marvelapp.features.heroes.presentation.adapter.DetailParentAdapter
 import com.example.marvelapp.features.heroes.presentation.viewmodel.DetailViewModel
 import com.example.marvelapp.framework.imageloader.ImageLoader
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,25 +43,36 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val detailViewArg = args.detailViewArg
 
+        binding.charactersDescriptions.text = args.detailViewArg.description
+
         binding.imageCharacters.run {
             transitionName = detailViewArg.name
             imageLoader.load(
                 this,
-                detailViewArg.imageUrl,
-                R.drawable.ic_img_loading_error
+                detailViewArg.imageUrl
             )
         }
 
         setSharedElementTransitionOnEnter()
 
         viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
-            val logResult = when(uiState) {
-                DetailViewModel.UiState.Loading -> "Loading comics ..."
-                is DetailViewModel.UiState.Success -> uiState.comics.toString()
-                DetailViewModel.UiState.Error -> "Error when loading comics"
-            }
+            when(uiState) {
+                DetailViewModel.UiState.Loading -> {
 
-            Log.d(DetailFragment::class.simpleName, logResult)
+                }
+                is DetailViewModel.UiState.Success -> {
+                    binding.recyclerParentDetail.run {
+                        setHasFixedSize(true)
+                        adapter = DetailParentAdapter(
+                            uiState.detailParentList,
+                            imageLoader
+                        )
+                    }
+                }
+                DetailViewModel.UiState.Error -> {
+
+                }
+            }
         }
         viewModel.getComics(detailViewArg.characterId)
     }

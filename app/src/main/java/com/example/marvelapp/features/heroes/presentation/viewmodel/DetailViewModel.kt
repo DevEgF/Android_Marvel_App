@@ -4,8 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.marvelapp.R
 import com.example.marvelapp.commons.utils.status.ResultStatus
 import com.example.marvelapp.features.heroes.domain.entities.ComicEntity
+import com.example.marvelapp.features.heroes.domain.entities.DetailChildVO
+import com.example.marvelapp.features.heroes.domain.entities.DetailParentVO
 import com.example.marvelapp.features.heroes.domain.usecase.GetComicsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -29,7 +32,19 @@ class DetailViewModel @Inject constructor(
         collect { status ->
             _uiState.value = when(status) {
                 ResultStatus.Loading -> UiState.Loading
-                is ResultStatus.Success -> UiState.Success(status.data)
+                is ResultStatus.Success -> {
+                    val detailChildList = status.data.map {
+                        DetailChildVO(it.id, it.imageUrl)
+                    }
+
+                    val detailParentList = listOf(
+                        DetailParentVO(
+                            R.string.details_comics_category,
+                            detailChildList
+                        )
+                    )
+                    UiState.Success(detailParentList)
+                }
                 is ResultStatus.Error -> UiState.Error
             }
         }
@@ -37,7 +52,7 @@ class DetailViewModel @Inject constructor(
 
     sealed class UiState {
         object Loading: UiState()
-        data class Success(val comics: List<ComicEntity>): UiState()
+        data class Success(val detailParentList: List<DetailParentVO>): UiState()
         object Error: UiState()
     }
 }

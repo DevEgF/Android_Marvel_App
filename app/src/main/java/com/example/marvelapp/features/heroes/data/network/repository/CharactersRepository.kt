@@ -5,11 +5,13 @@ import com.example.marvelapp.features.heroes.data.network.datasource.CharactersR
 import com.example.marvelapp.features.heroes.data.paging.CharactersPagingSource
 import com.example.marvelapp.features.heroes.domain.entities.CharacterEntity
 import com.example.marvelapp.features.heroes.domain.entities.ComicEntity
+import com.example.marvelapp.features.heroes.domain.entities.EventEntity
 import javax.inject.Inject
 
 interface CharactersRepository {
     fun getCharacters(query: String): PagingSource<Int, CharacterEntity>
     suspend fun getComics(characterId: Int): List<ComicEntity>
+    suspend fun getStories(characterId: Int): List<EventEntity>
 }
 
 class CharactersRepositoryImpl @Inject constructor(
@@ -21,5 +23,9 @@ class CharactersRepositoryImpl @Inject constructor(
 
     override suspend fun getComics(characterId: Int): List<ComicEntity> {
         return remoteDataSource.fetchComics(characterId)
+    }
+
+    override suspend fun getStories(characterId: Int): List<EventEntity> {
+        return remoteDataSource.fetchStories(characterId)
     }
 }

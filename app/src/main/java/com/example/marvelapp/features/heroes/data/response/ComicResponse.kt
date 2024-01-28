@@ -1,6 +1,7 @@
 package com.example.marvelapp.features.heroes.data.response
 
 import com.example.marvelapp.commons.data.network.response.ThumbnailResponse
+import com.example.marvelapp.commons.data.network.response.getHttpsUrl
 import com.example.marvelapp.features.heroes.domain.entities.ComicEntity
 
 data class ComicResponse(
@@ -11,7 +12,6 @@ data class ComicResponse(
 fun ComicResponse.toComicEntity(): ComicEntity {
     return ComicEntity(
         id = this.id,
-        imageUrl = "${this.thumbnail.path}.${this.thumbnail.extension}"
-            .replace("http", "https")
+        imageUrl = this.thumbnail.getHttpsUrl()
     )
 }

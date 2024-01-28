@@ -11,7 +11,7 @@ import javax.inject.Inject
 interface CharactersRepository {
     fun getCharacters(query: String): PagingSource<Int, CharacterEntity>
     suspend fun getComics(characterId: Int): List<ComicEntity>
-    suspend fun getStories(characterId: Int): List<EventEntity>
+    suspend fun getEvents(characterId: Int): List<EventEntity>
 }
 
 class CharactersRepositoryImpl @Inject constructor(
@@ -25,7 +25,7 @@ class CharactersRepositoryImpl @Inject constructor(
         return remoteDataSource.fetchComics(characterId)
     }
 
-    override suspend fun getStories(characterId: Int): List<EventEntity> {
+    override suspend fun getEvents(characterId: Int): List<EventEntity> {
         return remoteDataSource.fetchStories(characterId)
     }
 }

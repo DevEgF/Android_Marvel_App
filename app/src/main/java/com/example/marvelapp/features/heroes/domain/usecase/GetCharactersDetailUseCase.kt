@@ -33,7 +33,7 @@ class GetCharactersDetailsUseCaseImpl @Inject constructor(
             val comics = comicsDeferred.await()
 
             val eventDeferred = async {
-                repository.getStories(params.characterId)
+                repository.getEvents(params.characterId)
             }
             val event = eventDeferred.await()
 

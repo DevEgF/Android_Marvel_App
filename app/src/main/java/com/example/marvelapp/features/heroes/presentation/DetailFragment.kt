@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.marvelapp.R
 import com.example.marvelapp.databinding.FragmentDetailBinding
 import com.example.marvelapp.features.heroes.presentation.adapter.DetailParentAdapter
+import com.example.marvelapp.features.heroes.presentation.viewArgs.DetailViewArg
 import com.example.marvelapp.features.heroes.presentation.viewmodel.DetailViewModel
 import com.example.marvelapp.framework.imageloader.ImageLoader
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,23 +44,27 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val detailViewArg = args.detailViewArg
 
-        binding.charactersDescriptions.text = args.detailViewArg.description
+        setupView(detailViewArg)
+        setSharedElementTransitionOnEnter()
+        getCharactersDetails(detailViewArg)
+    }
+
+    private fun setupView(args: DetailViewArg) {
+        binding.charactersDescriptions.text = args.description
 
         binding.imageCharacters.run {
-            transitionName = detailViewArg.name
+            transitionName = args.name
             imageLoader.load(
                 this,
-                detailViewArg.imageUrl
+                args.imageUrl
             )
         }
+    }
 
-        setSharedElementTransitionOnEnter()
-
+    private fun getCharactersDetails(args: DetailViewArg) {
         viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
-            when(uiState) {
-                DetailViewModel.UiState.Loading -> {
-
-                }
+            binding.flipperDetail.displayedChild = when(uiState) {
+                DetailViewModel.UiState.Loading -> FLIPPER_CHILD_POSITION_LOADING
                 is DetailViewModel.UiState.Success -> {
                     binding.recyclerParentDetail.run {
                         setHasFixedSize(true)
@@ -68,13 +73,18 @@ class DetailFragment : Fragment() {
                             imageLoader
                         )
                     }
+                    FLIPPER_CHILD_POSITION_SUCCESS
                 }
                 DetailViewModel.UiState.Error -> {
-
+                    binding.includeErrorView.buttonRetry.setOnClickListener {
+                        viewModel.getComics(args.characterId)
+                    }
+                    FLIPPER_CHILD_POSITION_ERROR
                 }
+                DetailViewModel.UiState.Empty -> FLIPPER_CHILD_POSITION_EMPTY
             }
         }
-        viewModel.getComics(detailViewArg.characterId)
+        viewModel.getComics(args.characterId)
     }
 
     private fun setSharedElementTransitionOnEnter() {
@@ -86,5 +96,12 @@ class DetailFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    companion object {
+        private const val FLIPPER_CHILD_POSITION_LOADING = 0
+        private const val FLIPPER_CHILD_POSITION_SUCCESS = 1
+        private const val FLIPPER_CHILD_POSITION_ERROR = 2
+        private const val FLIPPER_CHILD_POSITION_EMPTY = 3
     }
 }

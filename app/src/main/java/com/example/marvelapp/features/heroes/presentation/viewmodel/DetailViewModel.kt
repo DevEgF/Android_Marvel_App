@@ -70,7 +70,12 @@ class DetailViewModel @Inject constructor(
                             }
                         }
 
-                        UiState.Success(detailParentList)
+                        if(detailParentList.isNotEmpty()) {
+                            UiState.Success(detailParentList)
+                        } else {
+                            UiState.Empty
+                        }
+
                     }
                     is ResultStatus.Error -> UiState.Error
                 }
@@ -81,5 +86,6 @@ class DetailViewModel @Inject constructor(
         object Loading: UiState()
         data class Success(val detailParentList: List<DetailParentVO>): UiState()
         object Error: UiState()
+        object Empty: UiState()
     }
 }

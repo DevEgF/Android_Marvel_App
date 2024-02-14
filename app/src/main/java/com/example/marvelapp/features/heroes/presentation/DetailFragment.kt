@@ -2,14 +2,12 @@ package com.example.marvelapp.features.heroes.presentation
 
 import android.os.Bundle
 import android.transition.TransitionInflater
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.example.marvelapp.R
 import com.example.marvelapp.databinding.FragmentDetailBinding
 import com.example.marvelapp.features.heroes.presentation.adapter.DetailParentAdapter
 import com.example.marvelapp.features.heroes.presentation.viewArgs.DetailViewArg
@@ -77,14 +75,14 @@ class DetailFragment : Fragment() {
                 }
                 DetailViewModel.UiState.Error -> {
                     binding.includeErrorView.buttonRetry.setOnClickListener {
-                        viewModel.getComics(args.characterId)
+                        viewModel.getCharacterCategories(args.characterId)
                     }
                     FLIPPER_CHILD_POSITION_ERROR
                 }
                 DetailViewModel.UiState.Empty -> FLIPPER_CHILD_POSITION_EMPTY
             }
         }
-        viewModel.getComics(args.characterId)
+        viewModel.getCharacterCategories(args.characterId)
     }
 
     private fun setSharedElementTransitionOnEnter() {

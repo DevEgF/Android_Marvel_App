@@ -1,15 +1,15 @@
 package com.example.marvelapp.features.heroes.data.paging
 
 import androidx.paging.PagingSource
-import com.example.marvelapp.commons.data.network.response.DataWrapperResponse
 import com.example.marvelapp.features.heroes.data.network.datasource.CharactersRemoteDataSource
 import com.example.marvelapp.features.heroes.domain.entities.CharacterEntity
 import com.example.marvelapp.utils.MainCoroutineRule
 import com.example.marvelapp.utils.factory.CharacterFactory
-import com.example.marvelapp.utils.factory.DataWrapperResponseFactory
+import com.example.marvelapp.utils.factory.CharacterPagingFactory
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Before
@@ -29,9 +29,9 @@ class CharactersPagingSourceTest {
     private lateinit var characterPagingSource: CharactersPagingSource
 
     @Mock
-    lateinit var remoteDataSource: CharactersRemoteDataSource<DataWrapperResponse>
+    lateinit var remoteDataSource: CharactersRemoteDataSource
 
-    private val dataWrapperResponseFactory = DataWrapperResponseFactory()
+    private val characterPagingFactory = CharacterPagingFactory()
 
     private val charactersFactory = CharacterFactory()
 
@@ -43,7 +43,7 @@ class CharactersPagingSourceTest {
     @Test
     fun `should return a success load result when load is called`() = runTest {
         whenever(remoteDataSource.fetchCharacters(any()))
-            .thenReturn(dataWrapperResponseFactory.create())
+            .thenReturn(characterPagingFactory.create())
 
         val result = characterPagingSource.load(
             PagingSource.LoadParams.Refresh(
@@ -52,7 +52,6 @@ class CharactersPagingSourceTest {
                 false
             )
         )
-
         val expected = listOf(
             charactersFactory.create(CharacterFactory.Hero.ThreeDMan),
             charactersFactory.create(CharacterFactory.Hero.ABomb)
@@ -62,10 +61,11 @@ class CharactersPagingSourceTest {
             PagingSource.LoadResult.Page(
                 data = expected,
                 prevKey = null,
-                nextKey = 20
+                nextKey = null
             ),
             result
         )
+
     }
 
     @Test

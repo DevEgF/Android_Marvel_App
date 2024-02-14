@@ -1,5 +1,7 @@
 package com.example.marvelapp.framework.di
 
+import com.example.marvelapp.features.heroes.domain.usecase.GetCharactersDetailsUseCase
+import com.example.marvelapp.features.heroes.domain.usecase.GetCharactersDetailsUseCaseImpl
 import com.example.marvelapp.features.heroes.domain.usecase.GetCharactersUseCase
 import com.example.marvelapp.features.heroes.domain.usecase.GetCharactersUseCaseImpl
 import dagger.Binds
@@ -12,5 +14,8 @@ import dagger.hilt.android.components.ViewModelComponent
 interface UseCaseModule {
 
     @Binds
-    fun bindCharacterUseCase(useCaseImpl: GetCharactersUseCaseImpl):GetCharactersUseCase
+    fun bindGetCharacterUseCase(useCaseImpl: GetCharactersUseCaseImpl):GetCharactersUseCase
+
+    @Binds
+    fun bindGetComicsUseCase(useCaseImpl: GetCharactersDetailsUseCaseImpl): GetCharactersDetailsUseCase
 }

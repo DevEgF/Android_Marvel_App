@@ -10,14 +10,19 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.example.marvelapp.databinding.FragmentCharactersBinding
+import com.example.marvelapp.features.heroes.presentation.viewArgs.DetailViewArg
 import com.example.marvelapp.features.heroes.presentation.adapter.CharacterAdapter
 import com.example.marvelapp.features.heroes.presentation.adapter.CharacterLoadStateAdapter
 import com.example.marvelapp.features.heroes.presentation.viewmodel.CharactersViewModel
+import com.example.marvelapp.framework.imageloader.ImageLoader
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CharactersFragment : Fragment() {
@@ -26,6 +31,9 @@ class CharactersFragment : Fragment() {
     private val binding: FragmentCharactersBinding get() = _binding!!
     private lateinit var charactersAdapter: CharacterAdapter
     private val viewModel: CharactersViewModel by viewModels()
+
+    @Inject
+    lateinit var imageLoader: ImageLoader
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,13 +54,29 @@ class CharactersFragment : Fragment() {
     }
 
     private fun initCharactersAdapter() {
-        charactersAdapter = CharacterAdapter()
+        charactersAdapter = CharacterAdapter(imageLoader) { character, description, view ->
+            val extras = FragmentNavigatorExtras(
+                view to character.name
+            )
+
+            val directions = CharactersFragmentDirections
+                .actionCharactersFragmentToDetailFragment(
+                    character.name,
+                    DetailViewArg(
+                        character.id,
+                        character.name,
+                        character.description,
+                        character.imageUrl
+                    )
+                )
+            findNavController().navigate(directions, extras)
+        }
         binding.recyclerCharacters.run {
             setHasFixedSize(true)
             adapter = charactersAdapter.withLoadStateFooter(
                 footer =  CharacterLoadStateAdapter(
-                charactersAdapter::retry
-            ))
+                    charactersAdapter::retry
+                ))
         }
     }
 

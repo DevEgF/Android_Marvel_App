@@ -25,7 +25,7 @@ class DetailViewModel @Inject constructor(
     val uiState: LiveData<UiState> get() = _uiState
 
     fun getCharacterCategories(characterId: Int) = viewModelScope.launch {
-        useCase.invoke(GetCharactersDetailsUseCase.GetComicsParams(characterId))
+        useCase.invoke(GetCharactersDetailsUseCase.GetCategoriesParams(characterId))
             .watchStatus()
     }
 

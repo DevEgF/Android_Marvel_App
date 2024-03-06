@@ -1,4 +1,4 @@
-package com.example.marvelapp.features.heroes.presentation
+package com.example.marvelapp.features.heroes.presentation.view
 
 import android.os.Bundle
 import android.transition.TransitionInflater
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.example.marvelapp.R
 import com.example.marvelapp.databinding.FragmentDetailBinding
 import com.example.marvelapp.features.heroes.presentation.adapter.DetailParentAdapter
 import com.example.marvelapp.features.heroes.presentation.viewArgs.DetailViewArg
@@ -45,6 +46,11 @@ class DetailFragment : Fragment() {
         setupView(detailViewArg)
         setSharedElementTransitionOnEnter()
         getCharactersDetails(detailViewArg)
+        observeFavoriteUiState()
+
+        binding.imageFavoriteIcon.setOnClickListener {
+            viewModel.updateFavorite(detailViewArg)
+        }
     }
 
     private fun setupView(args: DetailViewArg) {
@@ -91,6 +97,20 @@ class DetailFragment : Fragment() {
         }
     }
 
+    private fun observeFavoriteUiState() {
+        viewModel.favoriteUiState.observe(viewLifecycleOwner){ favoriteUiState ->
+            binding.flipperFavorite.displayedChild = when(favoriteUiState){
+                DetailViewModel.FavoriteUiState.Loading -> {
+                    FLIPPER_FAVORITE_CHILD_LOADING
+                }
+                is DetailViewModel.FavoriteUiState.FavoriteIcon -> {
+                    binding.imageFavoriteIcon.setImageResource(favoriteUiState.icon)
+                    FLIPPER_FAVORITE_CHILD_SUCCESS
+                }
+            }
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
@@ -101,5 +121,7 @@ class DetailFragment : Fragment() {
         private const val FLIPPER_CHILD_POSITION_SUCCESS = 1
         private const val FLIPPER_CHILD_POSITION_ERROR = 2
         private const val FLIPPER_CHILD_POSITION_EMPTY = 3
+        private const val FLIPPER_FAVORITE_CHILD_LOADING = 1
+        private const val FLIPPER_FAVORITE_CHILD_SUCCESS = 0
     }
 }

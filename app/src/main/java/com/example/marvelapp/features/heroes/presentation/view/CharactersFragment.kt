@@ -1,4 +1,4 @@
-package com.example.marvelapp.features.heroes.presentation
+package com.example.marvelapp.features.heroes.presentation.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -59,8 +59,8 @@ class CharactersFragment : Fragment() {
                 view to character.name
             )
 
-            val directions = CharactersFragmentDirections
-                .actionCharactersFragmentToDetailFragment(
+            val directions =
+                CharactersFragmentDirections.actionCharactersFragmentToDetailFragment(
                     character.name,
                     DetailViewArg(
                         character.id,

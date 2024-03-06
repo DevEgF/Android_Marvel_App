@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".features.heroes.presentation.DetailFragment">
+    tools:context=".features.heroes.presentation.view.DetailFragment">
 
     <ImageView
         android:id="@+id/image_characters"
@@ -16,6 +16,27 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ViewFlipper
+        android:id="@+id/flipper_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/image_favorite_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
+            tools:srcCompat="@drawable/ic_favorite_checked"/>
+
+        <ProgressBar
+            android:layout_width="@dimen/size_30dp"
+            android:layout_height="@dimen/size_30dp"
+            android:layout_gravity="center"/>
+    </ViewFlipper>
 
     <TextView
         android:id="@+id/characters_descriptions"

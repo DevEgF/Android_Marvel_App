@@ -7,6 +7,7 @@ import javax.inject.Inject
 
 interface FavoriteRepository {
     fun getAll(): Flow<List<CharacterEntity>>
+    suspend fun isFavorite(characterId: Int): Boolean
     suspend fun saveFavorite(characterEntity: CharacterEntity)
     suspend fun deleteFavorite(characterEntity: CharacterEntity)
 }
@@ -17,6 +18,10 @@ class FavoriteRepositoryImpl @Inject constructor(
 
     override fun getAll(): Flow<List<CharacterEntity>> {
         return favoriteLocalDataSource.getAll()
+    }
+
+    override suspend fun isFavorite(characterId: Int): Boolean {
+        return favoriteLocalDataSource.isFavorite(characterId)
     }
 
     override suspend fun saveFavorite(characterEntity: CharacterEntity) {

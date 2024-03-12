@@ -6,7 +6,9 @@ import com.example.marvelapp.R
 import com.example.marvelapp.commons.utils.status.ResultStatus
 import com.example.marvelapp.features.heroes.domain.entities.ComicEntity
 import com.example.marvelapp.features.heroes.domain.usecase.AddFavoriteUseCase
+import com.example.marvelapp.features.heroes.domain.usecase.CheckFavoriteUseCase
 import com.example.marvelapp.features.heroes.domain.usecase.GetCharactersDetailsUseCase
+import com.example.marvelapp.features.heroes.domain.usecase.RemoveFavoriteUseCase
 import com.example.marvelapp.features.heroes.presentation.livedata.UiActionStateLiveData
 import com.example.marvelapp.utils.MainCoroutineRule
 import com.example.marvelapp.utils.factory.CharacterFactory
@@ -46,6 +48,12 @@ class DetailViewModelTest {
     lateinit var addFavoriteUseCase: AddFavoriteUseCase
 
     @Mock
+    lateinit var checkFavoriteUseCase: CheckFavoriteUseCase
+
+    @Mock
+    lateinit var removeFavoriteUseCase: RemoveFavoriteUseCase
+
+    @Mock
     private lateinit var uiStateObserver: Observer<UiActionStateLiveData.UiState>
 
     private val characters = CharacterFactory().create(CharacterFactory.Hero.ThreeDMan)
@@ -57,7 +65,9 @@ class DetailViewModelTest {
         detailViewModel = DetailViewModel(
             getCharactersDetailsUseCase,
             addFavoriteUseCase,
-            mainCoroutineRule.testDispatcherProvider
+            mainCoroutineRule.testDispatcherProvider,
+            checkFavoriteUseCase,
+            removeFavoriteUseCase
         ).apply {
             categories.state.observeForever(uiStateObserver)
         }

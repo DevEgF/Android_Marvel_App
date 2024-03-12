@@ -3,7 +3,9 @@ package com.example.marvelapp.features.heroes.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import com.example.marvelapp.commons.utils.CoroutinesDispatchers
 import com.example.marvelapp.features.heroes.domain.usecase.AddFavoriteUseCase
+import com.example.marvelapp.features.heroes.domain.usecase.CheckFavoriteUseCase
 import com.example.marvelapp.features.heroes.domain.usecase.GetCharactersDetailsUseCase
+import com.example.marvelapp.features.heroes.domain.usecase.RemoveFavoriteUseCase
 import com.example.marvelapp.features.heroes.presentation.livedata.FavoriteUiActionStateLiveData
 import com.example.marvelapp.features.heroes.presentation.livedata.UiActionStateLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +15,9 @@ import javax.inject.Inject
 class DetailViewModel @Inject constructor(
     useCase: GetCharactersDetailsUseCase,
     addFavoriteUseCase: AddFavoriteUseCase,
-    coroutinesDispatchers: CoroutinesDispatchers
+    coroutinesDispatchers: CoroutinesDispatchers,
+    checkFavoriteUseCase: CheckFavoriteUseCase,
+    removeFavoriteUseCase: RemoveFavoriteUseCase
 ): ViewModel() {
 
     val categories = UiActionStateLiveData(
@@ -23,10 +27,8 @@ class DetailViewModel @Inject constructor(
 
     val favorite = FavoriteUiActionStateLiveData(
         coroutinesDispatchers.main(),
-        addFavoriteUseCase
+        addFavoriteUseCase,
+        checkFavoriteUseCase,
+        removeFavoriteUseCase
     )
-
-    init {
-        favorite.setDefault()
-    }
 }

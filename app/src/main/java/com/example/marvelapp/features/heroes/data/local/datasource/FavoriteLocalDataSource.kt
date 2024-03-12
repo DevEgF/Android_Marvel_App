@@ -11,6 +11,7 @@ import javax.inject.Inject
 
 interface FavoriteLocalDataSource {
     fun getAll(): Flow<List<CharacterEntity>>
+    suspend fun isFavorite(characterId: Int): Boolean
     suspend fun save(characterEntity: CharacterEntity)
     suspend fun delete(characterEntity: CharacterEntity)
 }
@@ -23,6 +24,10 @@ class FavoriteLocalDataSourceImpl @Inject constructor(
         return favoriteDao.loadFavorites().map {
             it.toCharacterEntity()
         }
+    }
+
+    override suspend fun isFavorite(characterId: Int): Boolean {
+        return favoriteDao.hasFavorite(characterId) != null
     }
 
     override suspend fun save(characterEntity: CharacterEntity) {

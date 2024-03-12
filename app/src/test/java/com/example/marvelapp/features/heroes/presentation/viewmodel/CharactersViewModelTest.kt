@@ -41,7 +41,10 @@ class CharactersViewModelTest {
 
     @Before
     fun setup() {
-        charactersViewModel = CharactersViewModel(getCharactersUseCase)
+        charactersViewModel = CharactersViewModel(
+            getCharactersUseCase,
+            mainCoroutineRule.testDispatcherProvider
+        )
     }
 
     @Test

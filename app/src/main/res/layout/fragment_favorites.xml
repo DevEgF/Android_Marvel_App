@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/flipper_favorite"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".features.favorites.presentation.FavoritesFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".features.favorites.presentation.view.FavoritesFragment">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_favorites"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Favorites" />
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_character"/>
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/no_favorite_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:drawableTopCompat="@drawable/ic_no_favorites"
+        android:drawablePadding="@dimen/size_16dp"
+        android:alpha="0.5"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:text="@string/favorites_no_products_in_the_list"/>
+
+</ViewFlipper>

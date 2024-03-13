@@ -1,7 +1,7 @@
 package com.example.marvelapp.framework.di
 
 import com.example.marvelapp.BuildConfig
-import com.example.marvelapp.commons.data.network.interceptor.AuthorizationInterceptor
+import com.example.marvelapp.features.heroes.data.interceptor.AuthorizationInterceptor
 import com.example.marvelapp.framework.service.MarvelApi
 import dagger.Module
 import dagger.Provides
@@ -32,7 +32,7 @@ object NetworkModule {
     }
 
     @Provides
-    fun provideAuthorizationInterceptor(): AuthorizationInterceptor{
+    fun provideAuthorizationInterceptor(): AuthorizationInterceptor {
         return AuthorizationInterceptor(
             publicKey = BuildConfig.PUBLIC_KEY,
             privateKey = BuildConfig.PRIVATE_KEY,

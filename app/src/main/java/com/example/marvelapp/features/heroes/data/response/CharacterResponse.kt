@@ -1,7 +1,7 @@
 package com.example.marvelapp.features.heroes.data.response
 
-import com.example.marvelapp.commons.data.network.response.ThumbnailResponse
-import com.example.marvelapp.commons.data.network.response.getHttpsUrl
+import com.example.marvelapp.commons.data.ThumbnailResponse
+import com.example.marvelapp.commons.data.getHttpsUrl
 import com.example.marvelapp.features.heroes.domain.entities.CharacterEntity
 
 data class CharacterResponse(

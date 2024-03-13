@@ -1,4 +1,4 @@
-package com.example.marvelapp.commons.data.network.interceptor
+package com.example.marvelapp.features.heroes.data.interceptor
 
 import com.example.marvelapp.commons.utils.extensions.md5
 import okhttp3.Interceptor

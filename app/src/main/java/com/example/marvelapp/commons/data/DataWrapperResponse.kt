@@ -1,4 +1,4 @@
-package com.example.marvelapp.commons.data.network.response
+package com.example.marvelapp.commons.data
 
 data class DataWrapperResponse<T>(
     val copyright: String,

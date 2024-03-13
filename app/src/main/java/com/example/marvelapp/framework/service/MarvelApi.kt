@@ -1,6 +1,6 @@
 package com.example.marvelapp.framework.service
 
-import com.example.marvelapp.commons.data.network.response.DataWrapperResponse
+import com.example.marvelapp.commons.data.DataWrapperResponse
 import com.example.marvelapp.features.heroes.data.response.CharacterResponse
 import com.example.marvelapp.features.heroes.data.response.ComicResponse
 import com.example.marvelapp.features.heroes.data.response.EventResponse

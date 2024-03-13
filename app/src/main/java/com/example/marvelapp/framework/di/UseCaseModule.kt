@@ -1,5 +1,7 @@
 package com.example.marvelapp.framework.di
 
+import com.example.marvelapp.features.favorites.domain.GetFavoriteUseCase
+import com.example.marvelapp.features.favorites.domain.GetFavoriteUseCaseImpl
 import com.example.marvelapp.features.heroes.domain.usecase.AddFavoriteUseCase
 import com.example.marvelapp.features.heroes.domain.usecase.AddFavoriteUseCaseImpl
 import com.example.marvelapp.features.heroes.domain.usecase.CheckFavoriteUseCase
@@ -29,4 +31,6 @@ interface UseCaseModule {
     fun checkFavoriteUseCase(useCaseImpl: CheckFavoriteUseCaseImpl): CheckFavoriteUseCase
     @Binds
     fun removeFavoriteUseCase(useCaseImpl: RemoveFavoriteUseCaseImpl): RemoveFavoriteUseCase
+    @Binds
+    fun getFavoriteUseCase(useCaseImpl: GetFavoriteUseCaseImpl): GetFavoriteUseCase
 }
